@@ -4,7 +4,7 @@ const cloudinary = require("./cloudinary");
 const storage = new CloudinaryStorage({
   cloudinary,
   params: {
-    folder: "kpd", // Optional folder name
+    folder: "Ethical", // Optional folder name
     allowed_formats: ["jpg", "png", "jpeg", "webp"],
   },
 });
