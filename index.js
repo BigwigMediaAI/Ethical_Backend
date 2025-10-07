@@ -15,12 +15,16 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.use("/", subscriberRoutes);
+app.use("/api", subscriberRoutes);
 app.use("/api/lead", leadRoutes);
 app.use("/blog", blogRoutes);
 app.use("/property", buyproperty);
 app.use("/sellproperty", sellproperty);
 app.use("/sell", sellApproval);
+
+app.use("/", (req, res) => {
+  res.send("API LIVE🚀");
+});
 
 // Start server
 app.listen(process.env.PORT, async () => {
