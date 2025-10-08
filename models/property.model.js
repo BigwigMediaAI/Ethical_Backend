@@ -6,7 +6,7 @@ const propertySchema = new mongoose.Schema({
   description: { type: String, default: "" }, // optional
   purpose: {
     type: String,
-    enum: ["Buy", "Sell", "Offplan"],
+    enum: ["Buy", "Sell", "Lease"],
     required: true,
   },
   location: { type: String, required: true },
