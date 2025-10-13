@@ -25,10 +25,13 @@ router.get("/:slug", propertyController.getPropertyBySlug);
 
 router.delete("/:slug", propertyController.deleteProperty);
 
+// PATCH route - update property
 router.patch(
   "/:slug",
-  upload.array("images", 50),
+  upload.fields([
+    { name: "images", maxCount: 50 },
+    { name: "brochure", maxCount: 1 },
+  ]),
   propertyController.updateProperty
 );
-
 module.exports = router;

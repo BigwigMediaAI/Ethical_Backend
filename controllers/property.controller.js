@@ -126,16 +126,22 @@ exports.updateProperty = async (req, res) => {
       return res.status(404).json({ message: "Property not found" });
     }
 
-    // Parse existingImages coming from frontend (these are the ones to keep)
+    // Parse existingImages from frontend (images to keep)
     let images = existing.images;
     if (req.body.existingImages) {
       images = JSON.parse(req.body.existingImages);
     }
 
     // Append new images if uploaded
-    if (req.files && req.files.length > 0) {
-      const newImages = req.files.map((file) => file.path);
+    if (req.files?.images) {
+      const newImages = req.files.images.map((file) => file.path);
       images = [...images, ...newImages];
+    }
+
+    // Handle brochure update
+    let brochure = existing.brochure || "";
+    if (req.files?.brochure && req.files.brochure[0]) {
+      brochure = req.files.brochure[0].path;
     }
 
     // Generate slug if title updated
@@ -181,7 +187,8 @@ exports.updateProperty = async (req, res) => {
         ? JSON.parse(req.body.extraHighlights)
         : existing.extraHighlights,
 
-      images, // now updated properly
+      images,
+      brochure, // <-- updated brochure
       lastUpdated: Date.now(),
     };
 
