@@ -23,17 +23,21 @@ exports.createProperty = async (req, res) => {
       extraHighlights,
     } = req.body;
 
-    // Handle uploaded images from Cloudinary
-    const images = req.files ? req.files.map((file) => file.path) : [];
+    // ✅ Handle uploaded images
+    const images = req.files?.images
+      ? req.files.images.map((file) => file.path)
+      : [];
 
-    // Generate slug from title
+    // ✅ Handle brochure (PDF)
+    const brochure = req.files?.brochure ? req.files.brochure[0].path : "";
+
+    // ✅ Generate slug
     const slug = title
       .toLowerCase()
       .replace(/[^\w\s-]/g, "")
       .trim()
       .replace(/\s+/g, "-");
 
-    // Convert numeric fields safely (empty string → null)
     const toNumberOrNull = (value) => {
       if (value === "" || value === undefined) return null;
       const num = Number(value);
@@ -43,23 +47,21 @@ exports.createProperty = async (req, res) => {
     const property = new Property({
       title,
       slug,
-      description: description || "", // if empty, fallback ""
+      description: description || "",
       purpose,
-
       location,
       price: toNumberOrNull(price),
       bedrooms: toNumberOrNull(bedrooms),
       bathrooms: toNumberOrNull(bathrooms),
       areaSqft: toNumberOrNull(areaSqft),
-
       highlights: highlights ? JSON.parse(highlights) : [],
       featuresAmenities: featuresAmenities ? JSON.parse(featuresAmenities) : [],
       nearby: nearby ? JSON.parse(nearby) : [],
       googleMapUrl: googleMapUrl || "",
       videoLink: videoLink || "",
       extraHighlights: extraHighlights ? JSON.parse(extraHighlights) : [],
-
       images,
+      brochure, // 👈 new field added here
     });
 
     await property.save();

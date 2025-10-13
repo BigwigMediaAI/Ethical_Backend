@@ -7,9 +7,13 @@ const storage = require("../config/storage"); // Cloudinary storage
 const upload = multer({ storage });
 
 // Create a new property with multiple images
+// routes/propertyRoutes.js
 router.post(
   "/",
-  upload.array("images", 50), // 'images' is the field name in form-data, max 10 files
+  upload.fields([
+    { name: "images", maxCount: 50 },
+    { name: "brochure", maxCount: 1 },
+  ]),
   propertyController.createProperty
 );
 

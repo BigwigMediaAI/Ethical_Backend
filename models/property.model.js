@@ -10,6 +10,7 @@ const propertySchema = new mongoose.Schema({
     required: true,
   },
   location: { type: String, required: true },
+  brochure: { type: String, default: "" },
 
   images: { type: [String], default: [] }, // URLs or Cloudinary links
 
