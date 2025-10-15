@@ -9,7 +9,8 @@ const sellSchema = new mongoose.Schema({
   slug: { type: String, unique: true }, // SEO-friendly URL
   description: { type: String, default: "" },
   purpose: { type: String, default: "Buy" },
-  location: { type: String, required: true },
+  location: { type: String, default: "" },
+  type: { type: String, default: "" },
 
   images: { type: [String], default: [] }, // URLs
 
@@ -26,6 +27,7 @@ const sellSchema = new mongoose.Schema({
   videoLink: { type: String, default: "" },
   extraHighlights: { type: [String], default: [] },
   approved: { type: Boolean, default: false },
+  brochure: { type: String, default: "" },
 
   createdAt: { type: Date, default: Date.now },
   lastUpdated: { type: Date, default: Date.now },

@@ -9,7 +9,10 @@ const upload = multer({ storage });
 // Create a new sell listing with multiple images
 router.post(
   "/addsell",
-  upload.array("images", 50), // 'images' is the field name in form-data, max 50 files
+  upload.fields([
+    { name: "images", maxCount: 50 },
+    { name: "brochure", maxCount: 1 },
+  ]), // 'images' is the field name in form-data, max 50 files
   sellController.createSell
 );
 
@@ -23,6 +26,13 @@ router.get("/:slug", sellController.getSellBySlug);
 router.delete("/:slug", sellController.deleteSell);
 
 // Update a sell listing by slug
-router.patch("/:slug", upload.array("images", 50), sellController.updateSell);
+router.patch(
+  "/:slug",
+  upload.fields([
+    { name: "images", maxCount: 50 },
+    { name: "brochure", maxCount: 1 },
+  ]),
+  sellController.updateSell
+);
 
 module.exports = router;

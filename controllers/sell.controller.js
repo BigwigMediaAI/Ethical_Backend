@@ -23,14 +23,22 @@ exports.createSell = async (req, res) => {
       extraHighlights,
     } = req.body;
 
-    const images = req.files ? req.files.map((file) => file.path) : [];
+    // Images array
+    const images = req.files?.images
+      ? req.files.images.map((file) => file.path)
+      : [];
 
+    // Brochure file (single PDF)
+    const brochure = req.files?.brochure?.[0]?.path || "";
+
+    // Create slug
     const slug = title
       .toLowerCase()
       .replace(/[^\w\s-]/g, "")
       .trim()
       .replace(/\s+/g, "-");
 
+    // Convert number fields
     const toNumberOrNull = (value) => {
       if (value === "" || value === undefined) return null;
       const num = Number(value);
@@ -60,6 +68,7 @@ exports.createSell = async (req, res) => {
       extraHighlights: extraHighlights ? JSON.parse(extraHighlights) : [],
 
       images,
+      brochure, // save brochure path
     });
 
     await sell.save();
@@ -114,16 +123,23 @@ exports.updateSell = async (req, res) => {
       return res.status(404).json({ message: "Sell listing not found" });
     }
 
+    // Handle images
     let images = existing.images;
     if (req.body.existingImages) {
       images = JSON.parse(req.body.existingImages);
     }
-
-    if (req.files && req.files.length > 0) {
-      const newImages = req.files.map((file) => file.path);
+    if (req.files?.images && req.files.images.length > 0) {
+      const newImages = req.files.images.map((file) => file.path);
       images = [...images, ...newImages];
     }
 
+    // Handle brochure
+    let brochure = existing.brochure;
+    if (req.files?.brochure && req.files.brochure[0]) {
+      brochure = req.files.brochure[0].path;
+    }
+
+    // Generate new slug if title changed
     let slug = existing.slug;
     if (req.body.title) {
       slug = req.body.title
@@ -133,6 +149,7 @@ exports.updateSell = async (req, res) => {
         .replace(/\s+/g, "-");
     }
 
+    // Prepare updated fields
     const updatedFields = {
       name: req.body.name ?? existing.name,
       email: req.body.email ?? existing.email,
@@ -171,6 +188,7 @@ exports.updateSell = async (req, res) => {
         : existing.extraHighlights,
 
       images,
+      brochure, // include brochure
       lastUpdated: Date.now(),
     };
 
