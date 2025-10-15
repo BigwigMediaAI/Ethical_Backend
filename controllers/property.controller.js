@@ -162,7 +162,7 @@ exports.updateProperty = async (req, res) => {
       description: req.body.description ?? existing.description,
 
       // ✅ New field (propertyType)
-      propertyType: req.body.propertyType ?? existing.propertyType,
+      type: req.body.type ?? existing.type,
 
       purpose: req.body.purpose ?? existing.purpose,
       location: req.body.location ?? existing.location,
