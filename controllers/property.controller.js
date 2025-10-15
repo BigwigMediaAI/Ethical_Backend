@@ -8,6 +8,7 @@ exports.createProperty = async (req, res) => {
   try {
     const {
       title,
+      type,
       description,
       purpose,
       location,
@@ -47,6 +48,7 @@ exports.createProperty = async (req, res) => {
     const property = new Property({
       title,
       slug,
+      type,
       description: description || "",
       purpose,
       location,
@@ -144,7 +146,7 @@ exports.updateProperty = async (req, res) => {
       brochure = req.files.brochure[0].path;
     }
 
-    // Generate slug if title updated
+    // Generate new slug if title updated
     let slug = existing.slug;
     if (req.body.title) {
       slug = req.body.title
@@ -158,37 +160,52 @@ exports.updateProperty = async (req, res) => {
       title: req.body.title ?? existing.title,
       slug,
       description: req.body.description ?? existing.description,
+
+      // ✅ New field (propertyType)
+      type: req.body.type ?? existing.type,
+
       purpose: req.body.purpose ?? existing.purpose,
       location: req.body.location ?? existing.location,
+
       price:
-        req.body.price !== undefined ? Number(req.body.price) : existing.price,
+        req.body.price !== undefined && req.body.price !== ""
+          ? Number(req.body.price)
+          : existing.price,
+
       bedrooms:
-        req.body.bedrooms !== undefined
+        req.body.bedrooms !== undefined && req.body.bedrooms !== ""
           ? Number(req.body.bedrooms)
           : existing.bedrooms,
+
       bathrooms:
-        req.body.bathrooms !== undefined
+        req.body.bathrooms !== undefined && req.body.bathrooms !== ""
           ? Number(req.body.bathrooms)
           : existing.bathrooms,
+
       areaSqft:
-        req.body.areaSqft !== undefined
+        req.body.areaSqft !== undefined && req.body.areaSqft !== ""
           ? Number(req.body.areaSqft)
           : existing.areaSqft,
+
       highlights: req.body.highlights
         ? JSON.parse(req.body.highlights)
         : existing.highlights,
+
       featuresAmenities: req.body.featuresAmenities
         ? JSON.parse(req.body.featuresAmenities)
         : existing.featuresAmenities,
+
       nearby: req.body.nearby ? JSON.parse(req.body.nearby) : existing.nearby,
+
       googleMapUrl: req.body.googleMapUrl ?? existing.googleMapUrl,
       videoLink: req.body.videoLink ?? existing.videoLink,
+
       extraHighlights: req.body.extraHighlights
         ? JSON.parse(req.body.extraHighlights)
         : existing.extraHighlights,
 
       images,
-      brochure, // <-- updated brochure
+      brochure,
       lastUpdated: Date.now(),
     };
 

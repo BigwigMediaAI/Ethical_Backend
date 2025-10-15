@@ -4,6 +4,10 @@ const propertySchema = new mongoose.Schema({
   title: { type: String, required: true },
   slug: { type: String, unique: true }, // SEO-friendly URL
   description: { type: String, default: "" }, // optional
+  type: {
+    type: String,
+    default: "",
+  },
   purpose: {
     type: String,
     enum: ["Buy", "Sell", "Lease"],
@@ -15,9 +19,9 @@ const propertySchema = new mongoose.Schema({
   images: { type: [String], default: [] }, // URLs or Cloudinary links
 
   price: { type: Number, default: null }, // optional
-  bedrooms: { type: Number, default: null },
-  bathrooms: { type: Number, default: null },
-  areaSqft: { type: Number, default: null },
+  bedrooms: { type: String, default: "" },
+  bathrooms: { type: String, default: "" },
+  areaSqft: { type: String, default: "" },
 
   highlights: { type: [String], default: [] },
   featuresAmenities: { type: [String], default: [] },
