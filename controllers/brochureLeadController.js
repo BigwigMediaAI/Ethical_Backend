@@ -54,12 +54,9 @@ exports.getLeadById = async (req, res) => {
 // Update a lead (marking)
 exports.updateLead = async (req, res) => {
   try {
-    const { marked } = req.body;
-    const lead = await BrochureLead.findByIdAndUpdate(
-      req.params.id,
-      { marked },
-      { new: true }
-    );
+    const lead = await BrochureLead.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
     if (!lead) return res.status(404).json({ message: "Lead not found" });
     res.status(200).json(lead);
   } catch (err) {
