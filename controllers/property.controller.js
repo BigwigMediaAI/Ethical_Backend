@@ -22,6 +22,7 @@ exports.createProperty = async (req, res) => {
       googleMapUrl,
       videoLink,
       extraHighlights,
+      builder, // <-- added here
     } = req.body;
 
     // ✅ Handle uploaded images
@@ -63,7 +64,8 @@ exports.createProperty = async (req, res) => {
       videoLink: videoLink || "",
       extraHighlights: extraHighlights ? JSON.parse(extraHighlights) : [],
       images,
-      brochure, // 👈 new field added here
+      brochure,
+      builder: builder || "", // 👈 added builder
     });
 
     await property.save();
@@ -160,52 +162,40 @@ exports.updateProperty = async (req, res) => {
       title: req.body.title ?? existing.title,
       slug,
       description: req.body.description ?? existing.description,
-
-      // ✅ New field (propertyType)
       type: req.body.type ?? existing.type,
-
       purpose: req.body.purpose ?? existing.purpose,
       location: req.body.location ?? existing.location,
-
       price:
         req.body.price !== undefined && req.body.price !== ""
           ? Number(req.body.price)
           : existing.price,
-
       bedrooms:
         req.body.bedrooms !== undefined && req.body.bedrooms !== ""
           ? Number(req.body.bedrooms)
           : existing.bedrooms,
-
       bathrooms:
         req.body.bathrooms !== undefined && req.body.bathrooms !== ""
           ? Number(req.body.bathrooms)
           : existing.bathrooms,
-
       areaSqft:
         req.body.areaSqft !== undefined && req.body.areaSqft !== ""
           ? Number(req.body.areaSqft)
           : existing.areaSqft,
-
       highlights: req.body.highlights
         ? JSON.parse(req.body.highlights)
         : existing.highlights,
-
       featuresAmenities: req.body.featuresAmenities
         ? JSON.parse(req.body.featuresAmenities)
         : existing.featuresAmenities,
-
       nearby: req.body.nearby ? JSON.parse(req.body.nearby) : existing.nearby,
-
       googleMapUrl: req.body.googleMapUrl ?? existing.googleMapUrl,
       videoLink: req.body.videoLink ?? existing.videoLink,
-
       extraHighlights: req.body.extraHighlights
         ? JSON.parse(req.body.extraHighlights)
         : existing.extraHighlights,
-
       images,
       brochure,
+      builder: req.body.builder ?? existing.builder, // <-- added builder
       lastUpdated: Date.now(),
     };
 
