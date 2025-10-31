@@ -35,30 +35,30 @@ router.post("/submit", async (req, res) => {
     // });
 
     // 📬 Send confirmation to user (if email exists)
-    if (email) {
-      await sendEmail({
-        to: email,
-        subject: "We've received your query - Bigwig Media",
-        html: `
-          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto;">
-            <div style="text-align: center; padding: 20px;">
-              <img src="https://res.cloudinary.com/dqrlkbsdq/image/upload/v1755090981/logo_bohujn.png" alt="Bigwig Media" width="120" />
-            </div>
-            <div style="padding: 20px; background-color: #f9f9f9; border-radius: 10px;">
-              <h2 style="color: #333;">Hello ${name},</h2>
-              <p style="font-size: 16px; color: #555;">
-                Thank you for reaching out to <strong>Bigwig Media</strong>.
-                Our team will get in touch with you soon.
-              </p>
-              <p style="margin-top: 30px; font-size: 15px; color: #777;">
-                Regards,<br />
-                <strong>Team Bigwig Media</strong>
-              </p>
-            </div>
-          </div>
-        `,
-      });
-    }
+    // if (email) {
+    //   await sendEmail({
+    //     to: email,
+    //     subject: "We've received your query - Bigwig Media",
+    //     html: `
+    //       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto;">
+    //         <div style="text-align: center; padding: 20px;">
+    //           <img src="https://res.cloudinary.com/dqrlkbsdq/image/upload/v1755090981/logo_bohujn.png" alt="Bigwig Media" width="120" />
+    //         </div>
+    //         <div style="padding: 20px; background-color: #f9f9f9; border-radius: 10px;">
+    //           <h2 style="color: #333;">Hello ${name},</h2>
+    //           <p style="font-size: 16px; color: #555;">
+    //             Thank you for reaching out to <strong>Bigwig Media</strong>.
+    //             Our team will get in touch with you soon.
+    //           </p>
+    //           <p style="margin-top: 30px; font-size: 15px; color: #777;">
+    //             Regards,<br />
+    //             <strong>Team Bigwig Media</strong>
+    //           </p>
+    //         </div>
+    //       </div>
+    //     `,
+    //   });
+    // }
 
     res.status(200).json({ message: "Lead submitted successfully." });
   } catch (err) {
