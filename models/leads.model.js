@@ -7,6 +7,7 @@ const leadSchema = new mongoose.Schema({
   requirements: { type: String },
   budget: { type: String },
   message: { type: String },
+  marked: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
 });
 

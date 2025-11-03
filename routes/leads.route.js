@@ -78,4 +78,30 @@ router.get("/all", async (req, res) => {
   }
 });
 
+// Update lead (mark)
+router.put("/:id", async (req, res) => {
+  try {
+    const lead = await Lead.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    if (!lead) return res.status(404).json({ message: "Lead not found" });
+    res.status(200).json(lead);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server Error" });
+  }
+});
+
+// Delete lead
+router.delete("/:id", async (req, res) => {
+  try {
+    const lead = await Lead.findByIdAndDelete(req.params.id);
+    if (!lead) return res.status(404).json({ message: "Lead not found" });
+    res.status(200).json({ message: "Lead deleted" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server Error" });
+  }
+});
+
 module.exports = router;
