@@ -79,10 +79,39 @@ exports.createProperty = async (req, res) => {
 // @desc    Get all properties
 // @route   GET /api/properties
 // @access  Public
+// controllers/propertyController.js
 exports.getProperties = async (req, res) => {
   try {
-    const properties = await Property.find().sort({ createdAt: -1 });
-    res.status(200).json(properties);
+    const { type, location, purpose, page = 1, limit = 9 } = req.query;
+
+    const query = {};
+
+    // Apply filters dynamically
+    if (purpose) query.purpose = { $regex: new RegExp(purpose, "i") };
+    if (type && type !== "all")
+      query.type = { $regex: new RegExp(type.replace(/-/g, " "), "i") };
+    if (location && location !== "all")
+      query.location = { $regex: new RegExp(location, "i") };
+
+    const skip = (Number(page) - 1) * Number(limit);
+
+    // Get filtered + paginated results
+    const [properties, total] = await Promise.all([
+      Property.find(query)
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(Number(limit)),
+      Property.countDocuments(query),
+    ]);
+
+    res.status(200).json({
+      success: true,
+      count: properties.length,
+      total,
+      totalPages: Math.ceil(total / Number(limit)),
+      currentPage: Number(page),
+      properties,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Failed to fetch properties", error });
