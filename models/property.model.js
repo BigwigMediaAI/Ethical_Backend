@@ -34,6 +34,8 @@ const propertySchema = new mongoose.Schema({
 
   createdAt: { type: Date, default: Date.now },
   lastUpdated: { type: Date, default: Date.now },
+  metatitle: { type: String, default: "" },
+  metadescription: { type: String, default: "" },
 });
 
 module.exports = mongoose.model("Property", propertySchema);

@@ -23,6 +23,8 @@ exports.createProperty = async (req, res) => {
       videoLink,
       extraHighlights,
       builder, // <-- added here
+      metatitle,
+      metadescription,
     } = req.body;
 
     // ✅ Handle uploaded images
@@ -66,6 +68,8 @@ exports.createProperty = async (req, res) => {
       images,
       brochure,
       builder: builder || "", // 👈 added builder
+      metatitle: metatitle || "", // ✅ added
+      metadescription: metadescription || "",
     });
 
     await property.save();
@@ -224,7 +228,9 @@ exports.updateProperty = async (req, res) => {
         : existing.extraHighlights,
       images,
       brochure,
-      builder: req.body.builder ?? existing.builder, // <-- added builder
+      builder: req.body.builder ?? existing.builder,
+      metatitle: req.body.metatitle ?? existing.metatitle, // ✅ added
+      metadescription: req.body.metadescription ?? existing.metadescription, // ✅ added
       lastUpdated: Date.now(),
     };
 
@@ -236,7 +242,7 @@ exports.updateProperty = async (req, res) => {
 
     res.status(200).json(property);
   } catch (error) {
-    console.error(error);
+    console.error("❌ Update Property Error:", error);
     res.status(400).json({ message: "Failed to update property", error });
   }
 };
