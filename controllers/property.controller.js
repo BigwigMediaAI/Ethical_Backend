@@ -54,9 +54,9 @@ exports.createProperty = async (req, res) => {
       purpose,
       location,
       price: toNumberOrNull(price),
-      bedrooms: toNumberOrNull(bedrooms),
-      bathrooms: toNumberOrNull(bathrooms),
-      areaSqft: toNumberOrNull(areaSqft),
+      bedrooms,
+      bathrooms,
+      areaSqft,
       highlights: highlights ? JSON.parse(highlights) : [],
       featuresAmenities: featuresAmenities ? JSON.parse(featuresAmenities) : [],
       nearby: nearby ? JSON.parse(nearby) : [],
@@ -200,15 +200,15 @@ exports.updateProperty = async (req, res) => {
           : existing.price,
       bedrooms:
         req.body.bedrooms !== undefined && req.body.bedrooms !== ""
-          ? Number(req.body.bedrooms)
+          ? req.body.bedrooms
           : existing.bedrooms,
       bathrooms:
         req.body.bathrooms !== undefined && req.body.bathrooms !== ""
-          ? Number(req.body.bathrooms)
+          ? req.body.bathrooms
           : existing.bathrooms,
       areaSqft:
         req.body.areaSqft !== undefined && req.body.areaSqft !== ""
-          ? Number(req.body.areaSqft)
+          ? req.body.areaSqft
           : existing.areaSqft,
       highlights: req.body.highlights
         ? JSON.parse(req.body.highlights)
