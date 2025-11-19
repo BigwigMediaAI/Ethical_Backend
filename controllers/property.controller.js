@@ -90,16 +90,28 @@ exports.getProperties = async (req, res) => {
 
     const query = {};
 
-    // Apply filters dynamically
-    if (purpose) query.purpose = { $regex: new RegExp(purpose, "i") };
-    if (type && type !== "all")
+    // Purpose filter
+    if (purpose) {
+      query.purpose = { $regex: new RegExp(purpose, "i") };
+    }
+
+    // Type filter
+    if (type && type !== "all") {
       query.type = { $regex: new RegExp(type.replace(/-/g, " "), "i") };
-    if (location && location !== "all")
-      query.location = { $regex: new RegExp(location, "i") };
+    }
+
+    // ✅ Multi-location filter (OR condition)
+    if (location && location !== "all") {
+      const locationsArray = location.split(","); // ["DLF Phase 2", "Golf Course Road"]
+
+      // Apply OR condition
+      query.location = {
+        $in: locationsArray.map((loc) => new RegExp(loc, "i")),
+      };
+    }
 
     const skip = (Number(page) - 1) * Number(limit);
 
-    // Get filtered + paginated results
     const [properties, total] = await Promise.all([
       Property.find(query)
         .sort({ createdAt: -1 })
