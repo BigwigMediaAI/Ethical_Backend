@@ -9,6 +9,7 @@ const plotSchema = new mongoose.Schema(
     plotSize: { type: String, required: false },
     location: { type: String, required: false },
     message: { type: String, required: false },
+    marked: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

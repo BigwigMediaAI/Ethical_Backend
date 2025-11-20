@@ -84,3 +84,34 @@ exports.deleteLead = async (req, res) => {
     });
   }
 };
+
+// PUT - Update lead (mark/unmark)
+exports.updateLead = async (req, res) => {
+  try {
+    const { marked } = req.body; // Expecting { marked: true/false }
+    const lead = await PlotModel.findByIdAndUpdate(
+      req.params.id,
+      { marked },
+      { new: true } // return the updated document
+    );
+
+    if (!lead) {
+      return res.status(404).json({
+        success: false,
+        message: "Lead not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Lead updated successfully",
+      data: lead,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to update lead",
+      error: error.message,
+    });
+  }
+};
