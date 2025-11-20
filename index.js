@@ -8,6 +8,7 @@ const buyproperty = require("./routes/property.route");
 const sellproperty = require("./routes/sell.route");
 const sellApproval = require("./routes/adminApproval");
 const brochureLeadRoutes = require("./routes/brochureLead");
+const plotRoutes = require("./routes/plot.route");
 
 require("dotenv").config();
 
@@ -23,6 +24,7 @@ app.use("/property", buyproperty);
 app.use("/sellproperty", sellproperty);
 app.use("/sell", sellApproval);
 app.use("/brochure-leads", brochureLeadRoutes);
+app.use("/plot", plotRoutes);
 
 app.use("/", (req, res) => {
   res.send("API LIVE🚀");
