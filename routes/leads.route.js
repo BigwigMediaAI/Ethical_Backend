@@ -20,45 +20,45 @@ router.post("/submit", async (req, res) => {
     await newLead.save();
 
     // 📨 Notify admin
-    // await sendEmail({
-    //   to: "accounts@bigwigmedia.in",
-    //   subject: "New Lead Submission - Bigwig Media",
-    //   html: `
-    //     <h3>New Lead Details</h3>
-    //     <p><strong>Name:</strong> ${name}</p>
-    //     <p><strong>Email:</strong> ${email || "N/A"}</p>
-    //     <p><strong>Phone:</strong> ${phone}</p>
-    //     <p><strong>Requirements:</strong> ${requirements}</p>
-    //     <p><strong>Budget:</strong> ${budget}</p>
-    //     <p><strong>Message:</strong> ${message}</p>
-    //   `,
-    // });
+    await sendEmail({
+      to: "shubham@bigwigmedia.in",
+      subject: "New Lead Submission - Bigwig Media",
+      html: `
+        <h3>New Lead Details</h3>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email || "N/A"}</p>
+        <p><strong>Phone:</strong> ${phone}</p>
+        <p><strong>Requirements:</strong> ${requirements}</p>
+        <p><strong>Budget:</strong> ${budget}</p>
+        <p><strong>Message:</strong> ${message}</p>
+      `,
+    });
 
     // 📬 Send confirmation to user (if email exists)
-    // if (email) {
-    //   await sendEmail({
-    //     to: email,
-    //     subject: "We've received your query - Bigwig Media",
-    //     html: `
-    //       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto;">
-    //         <div style="text-align: center; padding: 20px;">
-    //           <img src="https://res.cloudinary.com/dqrlkbsdq/image/upload/v1755090981/logo_bohujn.png" alt="Bigwig Media" width="120" />
-    //         </div>
-    //         <div style="padding: 20px; background-color: #f9f9f9; border-radius: 10px;">
-    //           <h2 style="color: #333;">Hello ${name},</h2>
-    //           <p style="font-size: 16px; color: #555;">
-    //             Thank you for reaching out to <strong>Bigwig Media</strong>.
-    //             Our team will get in touch with you soon.
-    //           </p>
-    //           <p style="margin-top: 30px; font-size: 15px; color: #777;">
-    //             Regards,<br />
-    //             <strong>Team Bigwig Media</strong>
-    //           </p>
-    //         </div>
-    //       </div>
-    //     `,
-    //   });
-    // }
+    if (email) {
+      await sendEmail({
+        to: email,
+        subject: "We've received your query - Bigwig Media",
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto;">
+            <div style="text-align: center; padding: 20px;">
+              <img src="https://res.cloudinary.com/dcq2oziz4/image/upload/v1761307944/logo_rlhggo.png" alt="Bigwig Media" width="120" />
+            </div>
+            <div style="padding: 20px; background-color: #f9f9f9; border-radius: 10px;">
+              <h2 style="color: #333;">Hello ${name},</h2>
+              <p style="font-size: 16px; color: #555;">
+                Thank you for reaching out to <strong>Ethical Infrastructures Private Limited</strong>.
+                Our team will get in touch with you soon.
+              </p>
+              <p style="margin-top: 30px; font-size: 15px; color: #777;">
+                Regards,<br />
+                <strong>Team Ethical Infrastructures Private Limited</strong>
+              </p>
+            </div>
+          </div>
+        `,
+      });
+    }
 
     res.status(200).json({ message: "Lead submitted successfully." });
   } catch (err) {
