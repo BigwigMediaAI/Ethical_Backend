@@ -21,8 +21,8 @@ router.post("/submit", async (req, res) => {
 
     // 📨 Notify admin
     await sendEmail({
-      to: "shubham@bigwigmedia.in",
-      subject: "New Lead Submission - Bigwig Media",
+      to: "Info@eipl.co",
+      subject: "New Lead Submission - Ethical",
       html: `
         <h3>New Lead Details</h3>
         <p><strong>Name:</strong> ${name}</p>
@@ -38,11 +38,11 @@ router.post("/submit", async (req, res) => {
     if (email) {
       await sendEmail({
         to: email,
-        subject: "We've received your query - Bigwig Media",
+        subject: "We've received your query - Ethical Infrastructures",
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto;">
             <div style="text-align: center; padding: 20px;">
-              <img src="https://res.cloudinary.com/dcq2oziz4/image/upload/v1761307944/logo_rlhggo.png" alt="Bigwig Media" width="120" />
+              <img src="https://res.cloudinary.com/dcq2oziz4/image/upload/v1764066541/Untitled_design_27_hkp26f.png" alt="Bigwig Media" width="120" />
             </div>
             <div style="padding: 20px; background-color: #f9f9f9; border-radius: 10px;">
               <h2 style="color: #333;">Hello ${name},</h2>
