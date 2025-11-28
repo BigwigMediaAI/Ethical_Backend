@@ -21,6 +21,7 @@ exports.createProperty = async (req, res) => {
       nearby,
       googleMapUrl,
       videoLink,
+      instagramLink,
       extraHighlights,
       builder, // <-- added here
       metatitle,
@@ -64,6 +65,7 @@ exports.createProperty = async (req, res) => {
       nearby: nearby ? JSON.parse(nearby) : [],
       googleMapUrl: googleMapUrl || "",
       videoLink: videoLink || "",
+      instagramLink: instagramLink || "",
       extraHighlights: extraHighlights ? JSON.parse(extraHighlights) : [],
       images,
       brochure,
@@ -235,6 +237,7 @@ exports.updateProperty = async (req, res) => {
       nearby: req.body.nearby ? JSON.parse(req.body.nearby) : existing.nearby,
       googleMapUrl: req.body.googleMapUrl ?? existing.googleMapUrl,
       videoLink: req.body.videoLink ?? existing.videoLink,
+      instagramLink: req.body.instagramLink ?? existing.instagramLink,
       extraHighlights: req.body.extraHighlights
         ? JSON.parse(req.body.extraHighlights)
         : existing.extraHighlights,

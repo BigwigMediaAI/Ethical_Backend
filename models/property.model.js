@@ -31,6 +31,7 @@ const propertySchema = new mongoose.Schema({
   googleMapUrl: { type: String, default: "" },
   videoLink: { type: String, default: "" },
   extraHighlights: { type: [String], default: [] },
+  instagramLink: { type: String, default: "" },
 
   createdAt: { type: Date, default: Date.now },
   lastUpdated: { type: Date, default: Date.now },
