@@ -136,6 +136,41 @@ exports.getProperties = async (req, res) => {
   }
 };
 
+// Get multiple properties by slug list
+exports.getPropertiesBySlugs = async (req, res) => {
+  try {
+    const { slugs } = req.query;
+
+    if (!slugs) {
+      return res.status(400).json({
+        success: false,
+        message: "Slugs are required. Example: ?slugs=slug1,slug2",
+      });
+    }
+
+    // Convert comma-separated string → array
+    const slugArray = slugs.split(",").map((s) => s.trim());
+
+    // Query properties matching any slug
+    const properties = await Property.find({
+      slug: { $in: slugArray },
+    });
+
+    res.status(200).json({
+      success: true,
+      count: properties.length,
+      properties,
+    });
+  } catch (error) {
+    console.error("Error fetching properties by slugs:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch properties",
+      error,
+    });
+  }
+};
+
 // @desc    Get single property by slug
 // @route   GET /api/properties/:slug
 // @access  Public

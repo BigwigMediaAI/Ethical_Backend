@@ -19,6 +19,7 @@ router.post(
 
 // Get all properties
 router.get("/", propertyController.getProperties);
+router.get("/featured", propertyController.getPropertiesBySlugs);
 
 // Get single property by slug
 router.get("/:slug", propertyController.getPropertyBySlug);
