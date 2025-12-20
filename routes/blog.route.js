@@ -162,4 +162,45 @@ router.patch("/:slug/image", upload.single("coverImage"), async (req, res) => {
   }
 });
 
+router.get("/related/:slug", async (req, res) => {
+  try {
+    const { slug } = req.params;
+
+    // 1️⃣ Get current blog
+    const currentBlog = await BlogPost.findOne({ slug });
+
+    if (!currentBlog) {
+      return res.status(404).json({ msg: "Blog not found" });
+    }
+
+    const tags = currentBlog.tags || [];
+
+    let relatedBlogs = [];
+
+    // 2️⃣ If tags exist → find related blogs by tags
+    if (tags.length > 0) {
+      relatedBlogs = await BlogPost.find({
+        slug: { $ne: slug }, // exclude current blog
+        tags: { $in: tags }, // match any tag
+      })
+        .sort({ datePublished: -1 })
+        .limit(4);
+    }
+
+    // 3️⃣ If no related blogs found → fallback to any 4 blogs
+    if (relatedBlogs.length === 0) {
+      relatedBlogs = await BlogPost.find({
+        slug: { $ne: slug },
+      })
+        .sort({ datePublished: -1 })
+        .limit(4);
+    }
+
+    res.status(200).json(relatedBlogs);
+  } catch (error) {
+    console.error("Error fetching related blogs:", error);
+    res.status(500).json({ msg: "Server Error" });
+  }
+});
+
 module.exports = router;
